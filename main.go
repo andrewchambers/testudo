@@ -137,7 +137,7 @@ func collectTests(ctx context.Context, testSource string) ([]*TestCase, error) {
 			runnerPath := rec[1]
 			testPath := rec[2]
 
-			if !filepath.IsAbs(runnerPath) || !filepath.IsAbs(testPath) {
+			if !filepath.IsAbs(testPath) {
 				return nil, errors.Errorf("test collector must output absolute paths: got %#v", rec)
 			}
 
@@ -181,7 +181,13 @@ func runTests(ctx context.Context, tmpDir string, tests []*TestCase) error {
 						return
 					}
 
-					cmd := exec.Command(t.Runner, t.Path)
+					var cmd *exec.Cmd
+
+					if t.Runner == "" {
+						cmd = exec.Command(t.Path)
+					} else {
+						cmd = exec.Command(t.Runner, t.Path)
+					}
 					cmd.Dir = filepath.Dir(t.Runner)
 
 					if !bufferOutput {

@@ -8,3 +8,5 @@ for t in $(find $(pwd) -type f -name "*.c")
 do
 	echo "test,$runner,$t"
 done
+
+echo "test,,\"$(pwd)/standalone.sh\""
