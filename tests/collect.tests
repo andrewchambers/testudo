@@ -1,0 +1,10 @@
+#! /bin/sh
+
+set -eu
+
+runner="$(pwd)/default.runner"
+
+for t in $(find $(pwd) -type f -name "*.c")
+do
+	echo "test,$runner,$t"
+done
